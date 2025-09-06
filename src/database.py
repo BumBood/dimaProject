@@ -1,21 +1,20 @@
-import asyncio
+from sqlalchemy.ext.asyncio import async_sessionmaker
+from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.orm import DeclarativeBase
 
-from typing import Annotated
-
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
-from sqlalchemy.orm import Session, sessionmaker, DeclarativeBase
-from sqlalchemy import URL, create_engine, text, String
 from src.config import settings
 
-engine= create_async_engine(
-    url= settings.DATABASE_URL_asyncpg
+engine = create_async_engine(
+    url=settings.database_async_url
 )
 
-session_factory= async_sessionmaker(engine)
+session_factory = async_sessionmaker(engine)
+
 
 class Base(DeclarativeBase):
-    repr_cols_num=3
-    repr_cols=tuple()
+    repr_cols_num = 3
+    repr_cols = tuple()
+
     def __repr__(self):
         """Relationships не используются в repr(), т.к. могут вести к неожиданным подгрузкам"""
         cols = []
