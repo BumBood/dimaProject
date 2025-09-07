@@ -14,7 +14,8 @@ class University(Base):
 
     id: Mapped[intpk]
     name: Mapped[str] = mapped_column(unique=True)
-    rating: Mapped[float] = mapped_column(nullable=True)  # КАК ОТ 1 ДО 5 СДЕЛАТЬ
+    url: Mapped[str] = mapped_column(unique=True)
+    rating: Mapped[float] = mapped_column(nullable=True)
     review: Mapped[list[str]]
     availability: Mapped[AvailableStatus] = mapped_column(nullable=True)
 

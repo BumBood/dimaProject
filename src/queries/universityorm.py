@@ -1,9 +1,13 @@
+from typing import List
+
 from fastapi import HTTPException
+from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
 from src.database import session_factory
 from src.models import University
 from src.schemas.university_schemas import UniversityAddDTO
+from src.schemas.university_schemas import UniversityDTO
 
 
 class UniversityORM:
@@ -19,4 +23,22 @@ class UniversityORM:
                 return "Университет добавлен"
             except IntegrityError as e:
                 await session.rollback()
-                raise HTTPException(status_code=400, detail='Такой универ уже есть')
+                raise HTTPException(status_code=400, detail='Такой университет уже есть')
+
+    @staticmethod
+    async def get_all_universities() -> List[UniversityDTO]:
+        async with session_factory() as session:
+            universities = session.execute(select(University))
+            if not universities:
+                raise HTTPException(status_code=404, detail="Такого университета нет")
+
+        return [UniversityDTO.model_validate(_) for _ in universities]
+
+    @staticmethod
+    async def get_university(university_id: int) -> UniversityDTO:
+        async with session_factory() as session:
+            university = session.get_one(University, university_id)
+            if not university:
+                raise HTTPException(status_code=404, detail="Такого университета нет")
+
+        return UniversityDTO.model_validate(university)

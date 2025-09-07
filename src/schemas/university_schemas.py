@@ -1,11 +1,13 @@
 from pydantic import BaseModel
 from pydantic import Field
+from pydantic import HttpUrl
 
 from src.enums import AvailableStatus
 
 
 class UniversityAddDTO(BaseModel):
     name: str
+    url: HttpUrl
 
 
 class UniversityDTO(UniversityAddDTO):
@@ -16,11 +18,16 @@ class UniversityDTO(UniversityAddDTO):
     class Config:
         from_attributes = True
 
-# if __name__ == '__main__':
-#     data = {
-#         "id": 1,
-#         "name": "dshdh",
-#         "availability": AvailableStatus.available,
-#         "rating": 4
-#     }
-#     print(UniversityDTO(**data))
+
+if __name__ == '__main__':
+    data = {
+        "id": 1,
+        "name": "dshdh",
+        "url": "https://test.ru",
+        "availability": AvailableStatus.available,
+        "rating": 4
+    }
+
+    dto = UniversityDTO(**data)
+
+    print(str(dto.url))
