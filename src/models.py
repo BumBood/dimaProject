@@ -3,8 +3,8 @@ from typing import Annotated
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 
-from src.database import Base
-from src.enums import AvailableStatus
+from database import Base
+from enums import AvailableStatus
 
 intpk = Annotated[int, mapped_column(primary_key=True)]
 
@@ -16,7 +16,6 @@ class University(Base):
     name: Mapped[str] = mapped_column(unique=True)
     url: Mapped[str] = mapped_column(unique=True)
     rating: Mapped[float] = mapped_column(nullable=True)
-    review: Mapped[list[str]]
     availability: Mapped[AvailableStatus] = mapped_column(nullable=True)
 
 
@@ -26,3 +25,4 @@ class User(Base):
     username: Mapped[str] = mapped_column(unique=True)
     password: Mapped[str]
     email: Mapped[str] = mapped_column(unique=True)
+

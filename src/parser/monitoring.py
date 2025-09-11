@@ -2,8 +2,8 @@ import asyncio
 
 import aiohttp
 
-from src.enums import AvailableStatus
-from src.schemas.university_schemas import UniversityDTO
+from enums import AvailableStatus
+from schemas.university_schemas import UniversityDTO
 
 
 class Monitor:
@@ -30,6 +30,7 @@ class Monitor:
             async with session.get(url) as resp:
                 status = resp.status
                 return status
+
 
 # if __name__ == '__main__':
 #     data = [
@@ -67,7 +68,7 @@ class Monitor:
 #             "availability": AvailableStatus.available,
 #             "rating": 4
 #         },
-#
+
 #     ]
 #
 #     dtos = [UniversityDTO(**_) for _ in data]

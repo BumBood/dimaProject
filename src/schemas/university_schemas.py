@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from pydantic import Field
 from pydantic import HttpUrl
 
-from src.enums import AvailableStatus
+from enums import AvailableStatus
 
 
 class UniversityAddDTO(BaseModel):
