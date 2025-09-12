@@ -1,6 +1,7 @@
 from typing import Annotated
 
-from sqlalchemy.orm import Mapped
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.orm import mapped_column
 
 from database import Base
@@ -14,9 +15,11 @@ class University(Base):
 
     id: Mapped[intpk]
     name: Mapped[str] = mapped_column(unique=True)
-    url: Mapped[str] = mapped_column(unique=True)
-    rating: Mapped[float] = mapped_column(nullable=True)
+    url: Mapped[str]
     availability: Mapped[AvailableStatus] = mapped_column(nullable=True)
+    reviews: Mapped[list['Review']] = relationship(
+        back_populates='university'
+    )
 
 
 class User(Base):
@@ -25,4 +28,22 @@ class User(Base):
     username: Mapped[str] = mapped_column(unique=True)
     password: Mapped[str]
     email: Mapped[str] = mapped_column(unique=True)
+    reviews: Mapped[list['Review']] = relationship(
+        back_populates='user'
+    )
 
+class Review(Base):
+    __tablename__='review'
+    id: Mapped[intpk]
+    author_id: Mapped[int] = mapped_column(ForeignKey('author.id'))
+    university_id: Mapped[int] = mapped_column(ForeignKey('university.id'))
+    text: Mapped[str]
+    rating: Mapped[float] = mapped_column(nullable=True)
+    user: Mapped['User'] = relationship(
+        back_populates='reviews'
+    )
+    university: Mapped['University'] = relationship(
+        back_populates='reviews'
+    )
+    
+    
