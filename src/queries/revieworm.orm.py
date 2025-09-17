@@ -3,9 +3,9 @@ from fastapi import HTTPException
 from sqlalchemy import delete, select
 from sqlalchemy.exc import IntegrityError
 from database import session_factory
-from models import Review, User, University
+from models import Review
 from schemas.review_schemas import ReviewDTO, ReviewAddDTO
-from schemas.university_schemas import UniversityDTO
+
 
 class ReviewORM:
     @staticmethod

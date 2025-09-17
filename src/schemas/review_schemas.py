@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from pydantic import Field
-from pydantic import HttpUrl
+
 
 class ReviewAddDTO(BaseModel):
     author_id: int

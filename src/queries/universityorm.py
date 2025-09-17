@@ -48,7 +48,7 @@ class UniversityORM:
             return 'Универ удалён'
         
     @staticmethod
-    async def change_university(university_id: int, university_data: UniversityAddDTO):   
+    async def update_university(university_id: int, university_data: UniversityAddDTO):   
         async with session_factory() as session:
             university= await session.get_one(University, university_id)
             university.name = university_data.name

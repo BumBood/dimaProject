@@ -47,7 +47,7 @@ class UserORM:
             return 'Юзер удалён'
         
     @staticmethod
-    async def change_user(user_id: int, user_data: UserAddDTO):   
+    async def update_user(user_id: int, user_data: UserAddDTO):   
         async with session_factory() as session:
             user= await session.get_one(User, user_id)
             user.username = user_data.username
