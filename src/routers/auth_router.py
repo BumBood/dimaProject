@@ -14,12 +14,15 @@ async def get_auth(data_login: DataLoginDTO) -> TokenDTO:
         detail="Incorrect username or password",
         headers={"WWW-Authenticate": "Bearer"},
     )
+
     if data_login.role == 'user':
-        password = await UserORM.get_password(data_login.username)
+        password = await UserORM.get_password(data_login.username) # TODO: do password methods for UserORM
         user_id = await UserORM.get_id_by_username(data_login.username)
     else:
         raise HTTPException(status_code=409, detail='Incorrect role')
+    
     if await Auth.verify_password(data_login.password, password):
         access_token = await Auth.create_access_token(user_id=user_id, role=data_login.role)
         return access_token
+    
     raise credentials

@@ -43,17 +43,22 @@ class UniversityORM:
     @staticmethod
     async def delete_university(university_id: int):
         async with session_factory() as session:
-            session.delete(University, university_id)
+            await session.delete(await session.get(University, university_id))
+
             await session.commit()
+            
             return 'Универ удалён'
         
     @staticmethod
     async def update_university(university_id: int, university_data: UniversityAddDTO):   
         async with session_factory() as session:
             university= await session.get_one(University, university_id)
+
             university.name = university_data.name
-            university.url= university_data.url
+            university.url= str(university_data.url)
+
             await session.commit()
+
             if university is None:
                 raise HTTPException(status_code=404, detail='university not found(((')
             return 'универ изменён'

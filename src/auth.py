@@ -1,16 +1,10 @@
-from datetime import datetime, timedelta, timezone
-from typing import Annotated
+from datetime import datetime, timedelta
 
 import jwt
-from fastapi import Depends, HTTPException, status, Header
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import HTTPException, Header
 from jwt.exceptions import InvalidTokenError
 from passlib.context import CryptContext
 from src.config import settings
-from src.schemas.token_schemas import TokenDataDTO
-from enum import Enum
-import asyncio
-
 from src.schemas.token_schemas import TokenDataDTO, TokenDTO
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -19,7 +13,6 @@ access_expires = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 
 
 class Auth:
-
     @staticmethod
     async def get_password_hash(password: str) -> str:
         return pwd_context.hash(password)
@@ -29,7 +22,7 @@ class Auth:
         return pwd_context.verify(plain_password, hashed_password)
 
     @staticmethod
-    async def create_access_token(user_id: int, role: str, expires_delta: int = access_expires) -> str:
+    async def create_access_token(user_id: int, role: str, expires_delta: int = access_expires) -> TokenDTO:
         to_encode = {"user_id": user_id, "role": role}
         expire = datetime.now() + timedelta(minutes=expires_delta)
         to_encode.update({"exp": expire})
@@ -53,6 +46,6 @@ class Auth:
     async def get_user_id(authorization: str = Header(...)) -> int:
         if not authorization:
             raise HTTPException(status_code=400, detail="Authorization header missing")
-        type, token = authorization.split(' ')
+        type, token = authorization.split(" ")
         token_data = await Auth.decode_access_token(token)
         return int(token_data.user_id)

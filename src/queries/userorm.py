@@ -42,7 +42,7 @@ class UserORM:
     @staticmethod
     async def delete_user(user_id: int):
         async with session_factory() as session:
-            session.delete(User, user_id)
+            await session.delete(await session.get(User, user_id))
             await session.commit()
             return 'Юзер удалён'
         
