@@ -13,16 +13,13 @@ class UniversityORM:
     async def insert_university(uni_data: UniversityAddDTO):
         async with session_factory() as session:
             try:
-                uni = University(
-                    name=uni_data.name,
-                    url=uni_data.url
-                )
+                uni = University(name=uni_data.name, url=uni_data.url)
                 session.add(uni)
                 await session.commit()
                 return "Университет добавлен"
             except IntegrityError:
                 await session.rollback()
-                raise HTTPException(status_code=400, detail='Такой университет уже есть')
+                raise HTTPException(status_code=400, detail="Такой университет уже есть")
 
     @staticmethod
     async def get_all_universities() -> list[UniversityDTO]:
@@ -39,28 +36,26 @@ class UniversityORM:
                 raise HTTPException(status_code=404, detail="Такого университета нет")
 
         return UniversityDTO.model_validate(university)
-    
+
     @staticmethod
     async def delete_university(university_id: int):
         async with session_factory() as session:
             await session.delete(await session.get(University, university_id))
 
             await session.commit()
-            
-            return 'Универ удалён'
-        
+
+            return "Универ удалён"
+
     @staticmethod
-    async def update_university(university_id: int, university_data: UniversityAddDTO):   
+    async def update_university(university_id: int, university_data: UniversityAddDTO):
         async with session_factory() as session:
-            university= await session.get_one(University, university_id)
+            university = await session.get_one(University, university_id)
 
             university.name = university_data.name
-            university.url= str(university_data.url)
+            university.url = str(university_data.url)
 
             await session.commit()
 
             if university is None:
-                raise HTTPException(status_code=404, detail='university not found(((')
-            return 'универ изменён'
-        
-            
+                raise HTTPException(status_code=404, detail="university not found(((")
+            return "универ изменён"
