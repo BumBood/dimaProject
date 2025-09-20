@@ -14,7 +14,7 @@ class UniversityORM:
     async def insert_university(uni_data: UniversityAddDTO):
         async with session_factory() as session:
             try:
-                uni = University(name=uni_data.name, url=uni_data.url)
+                uni = University(name=uni_data.name, url=str(uni_data.url))
                 session.add(uni)
                 await session.commit()
                 return "Университет добавлен"
@@ -32,7 +32,7 @@ class UniversityORM:
     @staticmethod
     async def get_university(university_id: int) -> UniversityDTO:
         async with session_factory() as session:
-            university = session.get_one(University, university_id)
+            university = await session.get_one(University, university_id)
             if not university:
                 raise HTTPException(status_code=404, detail="Такого университета нет")
 
