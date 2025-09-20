@@ -1,6 +1,8 @@
+
 from fastapi import HTTPException
-from sqlalchemy import select
+from sqlalchemy import Sequence, select
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import selectinload
 
 from database import session_factory
 from models import University
@@ -32,11 +34,14 @@ class UniversityORM:
     @staticmethod
     async def get_university(university_id: int) -> UniversityDTO:
         async with session_factory() as session:
-            university = await session.get_one(University, university_id)
+            university = await session.execute(select(University)
+                .options(selectinload(University.reviews))
+                .filter(University.id == university_id))
+            
             if not university:
                 raise HTTPException(status_code=404, detail="Такого университета нет")
 
-        return UniversityDTO.model_validate(university)
+        return UniversityDTO.model_validate(university.scalar_one_or_none())
 
     @staticmethod
     async def delete_university(university_id: int):

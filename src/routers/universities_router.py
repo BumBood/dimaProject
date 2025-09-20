@@ -36,19 +36,19 @@ async def get_universities() -> list[UniversityDTO]:
     return unis_data
 
 
-@router_universities.get("/universities/{id}", tags=["Universities"], summary="Получение университета")
+@router_universities.get("/universities/{uni_id}", tags=["Universities"], summary="Получение университета")
 async def get_university(uni_id: int) -> UniversityDTO:
     unis_data = await UniversityORM.get_university(uni_id)
     return unis_data
 
 
-@router_universities.put("/universities/{id}", tags=["Universities"], summary="Изменение университета")
+@router_universities.put("/universities/{uni_id}", tags=["Universities"], summary="Изменение университета")
 async def update_university(uni_id: int, uni_data: UniversityAddDTO):
     await UniversityORM.update_university(uni_id, uni_data)
     return {"ok": True, "message": "University updated successfully"}
 
 
-@router_universities.delete("/universities/{id}", tags=["Universities"], summary="Удаление университета")
+@router_universities.delete("/universities/{uni_id}", tags=["Universities"], summary="Удаление университета")
 async def delete_university(uni_id: int):
     await UniversityORM.delete_university(uni_id)
     return {"ok": True, "message": "University deleted successfully"}

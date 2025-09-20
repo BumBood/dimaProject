@@ -1,0 +1,13 @@
+2025-09-20 19:54:50,787 - root - INFO - Запуск бота...
+2025-09-20 19:54:51,166 - root - INFO - Бот запущен и готов к работе
+2025-09-20 19:54:51,167 - root - INFO - Инициализация базы данных...
+2025-09-20 19:54:51,246 - root - INFO - Стандартный контент страниц инициализирован
+2025-09-20 19:54:51,247 - root - INFO - База данных инициализирована
+2025-09-20 19:54:51,247 - aiogram.dispatcher - INFO - Start polling
+2025-09-20 19:54:51,305 - aiogram.dispatcher - INFO - Run polling for bot @almemotiontestbot id=7229336858 - 'Almemotion Test'
+2025-09-20 19:54:52,433 - root - INFO - Получен сигнал 2, останавливаем бота...
+2025-09-20 19:54:52,442 - aiogram.dispatcher - INFO - Polling stopped
+2025-09-20 19:54:52,442 - root - INFO - Закрытие подключения к базе данных...
+2025-09-20 19:54:52,442 - aiogram.dispatcher - INFO - Polling stopped for bot @almemotiontestbot id=7229336858 - 'Almemotion Test'
+2025-09-20 19:54:52,444 - root - INFO - Подключение к базе данных закрыто
+2025-09-20 19:54:52,701 - root - INFO - Бот остановлен

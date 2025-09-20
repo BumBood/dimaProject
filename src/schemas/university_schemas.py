@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 from pydantic import Field
 from pydantic import HttpUrl
@@ -10,8 +11,8 @@ class UniversityAddDTO(BaseModel):
     url: HttpUrl
 class UniversityDTO(UniversityAddDTO):
     id: int
-    availability: AvailableStatus
-    reviews: list[ReviewDTO]
+    availability: Optional[AvailableStatus]
+    reviews: Optional[list[ReviewDTO]]
     
 
     class Config:

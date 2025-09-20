@@ -16,7 +16,7 @@ class University(Base):
     id: Mapped[intpk]
     name: Mapped[str] = mapped_column(unique=True)
     url: Mapped[str]
-    availability: Mapped[AvailableStatus] = mapped_column(nullable=True)
+    availability: Mapped[AvailableStatus] = mapped_column(nullable=True, default=AvailableStatus.available)
     reviews: Mapped[list['Review']] = relationship(
         back_populates='university'
     )
