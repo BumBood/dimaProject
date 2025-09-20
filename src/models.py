@@ -11,7 +11,7 @@ intpk = Annotated[int, mapped_column(primary_key=True)]
 
 
 class University(Base):
-    __tablename__ = 'University'
+    __tablename__ = 'university'
 
     id: Mapped[intpk]
     name: Mapped[str] = mapped_column(unique=True)
@@ -35,7 +35,7 @@ class User(Base):
 class Review(Base):
     __tablename__='review'
     id: Mapped[intpk]
-    author_id: Mapped[int] = mapped_column(ForeignKey('author.id'))
+    author_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
     university_id: Mapped[int] = mapped_column(ForeignKey('university.id'))
     text: Mapped[str]
     rating: Mapped[float] = mapped_column(nullable=True)

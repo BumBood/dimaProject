@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from sqlalchemy import delete, select
+from sqlalchemy import  select
 from sqlalchemy.exc import IntegrityError
 from database import session_factory
 from models import Review

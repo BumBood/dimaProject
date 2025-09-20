@@ -4,6 +4,7 @@ from sqlalchemy.exc import IntegrityError
 
 from database import session_factory
 from models import University
+from parser.monitoring import Monitor
 from schemas.university_schemas import UniversityAddDTO
 from schemas.university_schemas import UniversityDTO
 
@@ -59,3 +60,11 @@ class UniversityORM:
             if university is None:
                 raise HTTPException(status_code=404, detail="university not found(((")
             return "универ изменён"
+    @staticmethod
+    async def universities_update() -> list[UniversityDTO]:
+        updated_universities = await Monitor.update_universities(await UniversityORM.get_all_universities())
+
+        if updated_universities:
+            return updated_universities
+        else:
+            raise HTTPException(status_code=500, detail="Произошла ошибка при сборе универов")

@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from pydantic import Field
 from pydantic import HttpUrl
-from review_schemas import ReviewDTO
+from schemas.review_schemas import ReviewDTO
 from enums import AvailableStatus
 
 

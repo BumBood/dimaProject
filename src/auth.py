@@ -4,8 +4,8 @@ import jwt
 from fastapi import HTTPException, Header
 from jwt.exceptions import InvalidTokenError
 from passlib.context import CryptContext
-from src.config import settings
-from src.schemas.token_schemas import TokenDataDTO, TokenDTO
+from config import settings
+from schemas.token_schemas import TokenDataDTO, TokenDTO
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

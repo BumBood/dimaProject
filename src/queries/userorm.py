@@ -2,9 +2,9 @@ from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
-from src.database import session_factory
-from src.models import User
-from src.schemas.user_schemas import UserAddDTO, UserDTO
+from database import session_factory
+from models import User
+from schemas.user_schemas import UserAddDTO, UserDTO
 
 
 class UserORM:

@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, status
-from src.auth import Auth
-from src.queries.userorm import UserORM
-from src.schemas.auth_schemas import DataLoginDTO
-from src.schemas.token_schemas import TokenDTO
+from auth import Auth
+from queries.userorm import UserORM
+from schemas.auth_schemas import DataLoginDTO
+from schemas.token_schemas import TokenDTO
 
 auth_router = APIRouter()
 

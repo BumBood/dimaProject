@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Header
 
-from src.auth import Auth
-from src.queries.userorm import UserORM
-from src.schemas.user_schemas import UserAddDTO, UserDTO
+from auth import Auth
+from queries.userorm import UserORM
+from schemas.user_schemas import UserAddDTO, UserDTO
 
 router_user = APIRouter()
 

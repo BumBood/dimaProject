@@ -10,18 +10,18 @@ from parser.monitoring import Monitor
 router_universities = APIRouter()
 
 
-@router_universities.get(
-    "/universities/update",
-    tags=["Universities"],
-    summary="Обновление статус универов на актуальные. Возвращает список универов с актуальными статусами",
-)
-async def universities_update() -> list[UniversityDTO]:
-    updated_universities = await Monitor.update_universities(await UniversityORM.get_all_universities())
+# @router_universities.get(
+#     "/universities/update",
+#     tags=["Universities"],
+#     summary="Обновление статус универов на актуальные. Возвращает список универов с актуальными статусами",
+# )
+# async def universities_update() -> list[UniversityDTO]:
+#     updated_universities = await Monitor.update_universities(await UniversityORM.get_all_universities())
 
-    if updated_universities:
-        return updated_universities
-    else:
-        raise HTTPException(status_code=500, detail="Произошла ошибка при сборе универов")
+#     if updated_universities:
+#         return updated_universities
+#     else:
+#         raise HTTPException(status_code=500, detail="Произошла ошибка при сборе универов")
 
 
 @router_universities.post("/universities", tags=["Universities"], summary="Регистрация нового универа")
