@@ -16,7 +16,7 @@ async def get_auth(data_login: DataLoginDTO) -> TokenDTO:
     )
 
     if data_login.role == "user":
-        password = await UserORM.get_password(data_login.username)  # TODO: do password methods for UserORM
+        password = await UserORM.get_password(data_login.username)
         user_id = await UserORM.get_id_by_username(data_login.username)
     else:
         raise HTTPException(status_code=409, detail="Incorrect role")
