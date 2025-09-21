@@ -53,3 +53,27 @@ class UserORM:
             if user is None:
                 raise HTTPException(status_code=404, detail="user not found(((")
             return "Юзер изменён"
+
+    @staticmethod
+    async def get_password(username: str) -> str:
+        async with session_factory() as session:
+            query = (
+                select(User)
+                .filter(User.username == username))
+            result = await session.execute(query)
+            user = result.scalars().first()
+            if user is None:
+                raise HTTPException(status_code=404, detail='User not found')
+            return user.password
+    
+    @staticmethod
+    async def get_id_by_username(username: str) -> int:
+        async with session_factory() as session:
+            query = (
+                select(User).filter(User.username==username)
+            )
+            res=await session.execute(query)
+            user=res.scalars().first()
+            if user is None:
+                raise HTTPException(status_code=404, detail='User not found')
+            return user.id

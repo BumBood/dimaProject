@@ -27,21 +27,22 @@ class UniversityORM:
     @staticmethod
     async def get_all_universities() -> list[UniversityDTO]:
         async with session_factory() as session:
-            universities = await session.execute(select(University))
-
-        return [UniversityDTO.model_validate(_) for _ in universities]
+            query=select(University).options(selectinload(University.reviews))
+            universities = await session.execute(query)
+            res=universities.scalars().all()
+            return [UniversityDTO.model_validate(_) for _ in res]
 
     @staticmethod
     async def get_university(university_id: int) -> UniversityDTO:
         async with session_factory() as session:
-            university = await session.execute(select(University)
-                .options(selectinload(University.reviews))
-                .filter(University.id == university_id))
             
+            university = (await session.execute(select(University)
+                .options(selectinload(University.reviews))
+                .filter(University.id == university_id))).scalar_one_or_none()
             if not university:
                 raise HTTPException(status_code=404, detail="Такого университета нет")
 
-        return UniversityDTO.model_validate(university.scalar_one_or_none())
+        return UniversityDTO.model_validate(university)
 
     @staticmethod
     async def delete_university(university_id: int):
