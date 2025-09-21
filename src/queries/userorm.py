@@ -2,6 +2,7 @@ from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
+from auth import Auth
 from database import session_factory
 from models import User
 from schemas.user_schemas import UserAddDTO, UserDTO
@@ -12,7 +13,12 @@ class UserORM:
     async def insert_user(user_data: UserAddDTO):
         async with session_factory() as session:
             try:
-                user = User(username=user_data.username, password=user_data.password, email=user_data.email)
+                password_hashed = await Auth.get_password_hash(user_data.password)
+                user = User(
+                    username=user_data.username,
+                    password=password_hashed,
+                    email=user_data.email
+                )
                 session.add(user)
                 await session.commit()
                 return "Пользователь добавлен"
