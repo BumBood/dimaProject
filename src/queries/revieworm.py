@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from sqlalchemy import  select
 from sqlalchemy.exc import IntegrityError
 from database import session_factory
-from models import Review
+from models import Review, User
 from schemas.review_schemas import ReviewDTO, ReviewAddDTO
 
 
@@ -60,14 +60,15 @@ class ReviewORM:
             await session.delete(review)
             await session.commit()
             if not review:
-                raise HTTPException(status_code=404, detail="Такого отзыва не сущ")
+                raise HTTPException(status_code=404, detail="Такого отзыва нет")
             return "Отзыв удалён"
 
     @staticmethod
     async def change_review(review_id: int, review_data: ReviewAddDTO):
         async with session_factory() as session:
             review = await session.get_one(Review, review_id)
-
+            if not review:
+                raise HTTPException(status_code=404, detail="Такого отзыва нет")
             review.author_id = review_data.author_id
             review.university_id = review_data.university_id
             review.text = review_data.text
@@ -78,3 +79,16 @@ class ReviewORM:
             if review is None:
                 raise HTTPException(status_code=404, detail="review not found(((")
             return "Отзыв изменён"
+    
+    @staticmethod
+    async def review_belonging(review_id: int, user_id: int):
+        async with session_factory() as session:
+            review = await session.get_one(Review, review_id)
+            if not review:
+                raise HTTPException(status_code=404, detail="Такого отзыва нет")
+            query = select(Review).filter(Review.author_id == user_id)
+            user_reviews = await session.execute(query)
+            if any([_ for _ in user_reviews if _==review]):
+                return True
+            else:
+                return False
